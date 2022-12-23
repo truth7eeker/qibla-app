@@ -42,11 +42,11 @@ function App() {
       setPointDegree((prev) => prev + 360);
     }
 
-    // ±10  degree
+    // ±5  degree
     if (
       pointDegree > 0 &&
-      Math.abs(pointDegree) - 10 <= heading &&
-      heading <= Math.abs(pointDegree) + 10
+      Math.abs(pointDegree) - 5 <= heading &&
+      heading <= Math.abs(pointDegree) + 5
     ) {
       setIsKaaba(true);
     } else {
