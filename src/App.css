@@ -41,7 +41,7 @@ body{
   top: 36%;
   width: 130px;
   height: 130px;
-  transition: all 1s ease-out;
+  transition: all .3s ease-out;
 }
 
 @media (max-width:600px) {
