@@ -2,6 +2,9 @@ body {
   background-color:rgb(185, 210, 250);
 }
 
+.app {
+  width: 100%;
+}
 
 .compass {
   display: flex;
@@ -13,8 +16,8 @@ body {
 
 .compass-arrow {
   position: absolute;
-  top: 30px;
-  
+  top: 150px;
+  height: 150px;
 }
 
 .kaaba-wrapper {
@@ -34,22 +37,32 @@ body {
 
 @media (max-width:600px) {
   .compass-pic, .kaaba-wrapper {
-    max-width: 380px;
-    max-height: 380px;
+    max-width: 400px;
+    max-height: 400px;
+  }
+  .compass-arrow {
+    top: 90px;
   }
 }
 
 @media (max-width:435px) {
   .compass-pic, .kaaba-wrapper {
-    max-width: 320px;
-    max-height: 320px;
+    max-width: 280px;
+    max-height: 280px;
+  }
+  .compass-arrow {
+    top: 50px;
   }
 }
 
 @media (max-width:350px) {
   .compass-pic, .kaaba-wrapper {
-    max-width: 280px;
-    max-height: 280px;
+    max-width: 250px;
+    max-height: 250px;
+  }
+  .compass-arrow {
+    top: 30px;
+    width: 110px;
   }
   
 }
@@ -58,6 +71,18 @@ body {
   .compass-pic, .kaaba-wrapper {
     max-width: 220px;
     max-height: 220px;
+  }
+  .compass-arrow {
+    top: 40px;
+    height: 100px
+  }
+}
+
+
+@media (max-width:260px) {
+  .compass-pic, .kaaba-wrapper {
+    max-width: 200px;
+    max-height: 200px;
   }
   
 }
