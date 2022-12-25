@@ -1,91 +1,63 @@
-body{
+body {
   background-color:rgb(185, 210, 250);
 }
+
 
 .compass {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.compass-btn {
-  border: none;
-  background-color:rgb(255, 204, 0);
-  padding: 10px;
-  border-radius: 5px;
-  color: rgb(0, 0, 0);
-  font-weight: 700;
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: .2s;
-  margin-bottom: .8em;
-}
-
-.compass-btn:active {
-  transform: scale(.7);
+  position: relative;
 }
 
 .compass-arrow {
-  border: 20px solid transparent; 
-  border-top: 20px solid red;
+  position: absolute;
+  top: 30px;
+  
 }
 
-.compass-pics {
-  position: relative;
+.kaaba-wrapper {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  display: flex;
+  justify-content: center;
 }
 
 .kaaba {
   position: absolute;
-  left: 38%;
-  top: 36%;
-  width: 130px;
-  height: 130px;
+  width: 40px;
+  height: 40px;
   transition: all .3s ease-out;
 }
 
 @media (max-width:600px) {
-  .compass-pic {
-    max-width: 400px;
-    max-height: 400px;
-  }
-  .kaaba {
-    left: 35%;
-    top: 35%;
+  .compass-pic, .kaaba-wrapper {
+    max-width: 380px;
+    max-height: 380px;
   }
 }
 
 @media (max-width:435px) {
-  .compass-pic {
+  .compass-pic, .kaaba-wrapper {
     max-width: 320px;
     max-height: 320px;
-  }
-  .kaaba {
-    left: 30%;
-    top: 30%;
   }
 }
 
 @media (max-width:350px) {
-  .compass-pic {
+  .compass-pic, .kaaba-wrapper {
     max-width: 280px;
     max-height: 280px;
   }
-  .kaaba {
-    left: 31%;
-    width: 100px;
-    height: 100px;
-  }
+  
 }
 
 @media (max-width:310px) {
-  .compass-pic {
+  .compass-pic, .kaaba-wrapper {
     max-width: 220px;
     max-height: 220px;
   }
-  .kaaba {
-    /* left: 27%; */
-    width: 80px;
-    height: 80px;
-  }
+  
 }

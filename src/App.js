@@ -2,31 +2,16 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import compassPic from "./assets/compass.png";
 import kaaba from "./assets/kaaba.png";
+import arrow from "./assets/arrow.png";
 
 function App() {
   const [heading, setHeading] = useState(0);
   const [pointDegree, setPointDegree] = useState(0);
-  const [isKaaba, setIsKaaba] = useState(false);
+  // const [isKaaba, setIsKaaba] = useState(false);
 
   const isIOS =
     navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
     navigator.userAgent.match(/AppleWebKit/);
-
-  const startCompass = () => {
-    if (isIOS) {
-      DeviceOrientationEvent.requestPermission()
-        .then((response) => {
-          if (response === "granted") {
-            window.addEventListener("deviceorientation", handler, true);
-          } else {
-            alert("Разрешите доступ к местоположению");
-          }
-        })
-        .catch(() => alert("He поддерживается браузером"));
-    } else {
-      window.addEventListener("deviceorientationabsolute", handler, true);
-    }
-  };
 
   const handler = (e) => {
     setHeading(
@@ -43,15 +28,15 @@ function App() {
     }
 
     // ±5  degree
-    if (
-      pointDegree > 0 &&
-      Math.abs(pointDegree) - 5 <= heading &&
-      heading <= Math.abs(pointDegree) + 5
-    ) {
-      setIsKaaba(true);
-    } else {
-      setIsKaaba(false);
-    }
+    // if (
+    //   pointDegree > 0 &&
+    //   Math.abs(pointDegree) - 5 <= heading &&
+    //   heading <= Math.abs(pointDegree) + 5
+    // ) {
+    //   setIsKaaba(true);
+    // } else {
+    //   setIsKaaba(false);
+    // }
   };
 
   const calcDegreeToPoint = (latitude, longitude) => {
@@ -76,30 +61,47 @@ function App() {
   };
 
   useEffect(() => {
+    if (isIOS) {
+      DeviceOrientationEvent.requestPermission()
+        .then((response) => {
+          if (response === "granted") {
+            window.addEventListener("deviceorientation", handler, true);
+          } else {
+            alert("Разрешите доступ к местоположению");
+          }
+        })
+        .catch(() => alert("He поддерживается браузером"));
+    } else {
+      window.addEventListener("deviceorientationabsolute", handler, true);
+    }
+  }, []);
+
+  useEffect(() => {
     navigator.geolocation.getCurrentPosition(locationHandler);
-  });
+  }, []);
+
+  
 
   return (
     <div className="app">
       <div className="compass">
-        <button className="compass-btn" onClick={startCompass}>
-          Найти Киблу
-        </button>
-        <div className="compass-arrow"></div>
-        <div className="compass-pics">
-          <img
-            src={compassPic}
-            alt="compass"
-            className="compass-pic"
-            style={{ transform: `rotate(${-heading}deg)` }}
-          />
+        <img
+          src={compassPic}
+          alt="compass"
+          className="compass-pic"
+          style={{ transform: `rotate(${-heading}deg)` }}
+        />
+        <div
+          className="kaaba-wrapper"
+          style={{ transform: `rotate(${-heading + pointDegree}deg)` }}
+        >
           <img
             src={kaaba}
             alt="kaaba"
             className="kaaba"
-            style={{ visibility: isKaaba ? "visible" : "hidden" }}
           />
         </div>
+        <img src={arrow} className="compass-arrow" />
       </div>
     </div>
   );
