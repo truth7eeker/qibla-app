@@ -74,11 +74,12 @@ function App() {
     } else {
       window.addEventListener("deviceorientationabsolute", handler, true);
     }
-  }, []);
+  }, [isIOS]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(locationHandler);
-  }, []);
+  
+  },);
 
   
 
@@ -93,7 +94,9 @@ function App() {
         />
         <div
           className="kaaba-wrapper"
-          style={{ transform: `rotate(${-heading + pointDegree}deg)` }}
+          style={{ transform: `rotate(${-heading + pointDegree}deg)`,
+          visibility: heading && pointDegree ? 'visible' : 'hidden'
+        }}
         >
           <img
             src={kaaba}
@@ -101,7 +104,7 @@ function App() {
             className="kaaba"
           />
         </div>
-        <img src={arrow} className="compass-arrow" />
+        <img src={arrow} className="compass-arrow" alt="arrow" />
       </div>
     </div>
   );
