@@ -7,7 +7,6 @@ import arrow from "./assets/arrow.png";
 function App() {
   const [heading, setHeading] = useState(0);
   const [pointDegree, setPointDegree] = useState(0);
-  // const [isKaaba, setIsKaaba] = useState(false);
 
   const isIOS =
     navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
@@ -26,17 +25,6 @@ function App() {
     if (pointDegree < 0) {
       setPointDegree((prev) => prev + 360);
     }
-
-    // ±5  degree
-    // if (
-    //   pointDegree > 0 &&
-    //   Math.abs(pointDegree) - 5 <= heading &&
-    //   heading <= Math.abs(pointDegree) + 5
-    // ) {
-    //   setIsKaaba(true);
-    // } else {
-    //   setIsKaaba(false);
-    // }
   };
 
   const calcDegreeToPoint = (latitude, longitude) => {
@@ -60,51 +48,58 @@ function App() {
     return Math.round(psi);
   };
 
-  useEffect(() => {
+  const handleGeoError = (error) => {
+    if (error.code === 1) {
+      alert("Allow geolocation access/Разрешите доступ к местоположению");
+    }
+  };
+
+  const startCompass = () => {
     if (isIOS) {
       DeviceOrientationEvent.requestPermission()
         .then((response) => {
           if (response === "granted") {
             window.addEventListener("deviceorientation", handler, true);
           } else {
-            alert("Разрешите доступ к местоположению");
+            alert("Allow geolocation access/Разрешите доступ к местоположению");
           }
         })
-        .catch(() => alert("He поддерживается браузером"));
+        .catch(() => alert("Not supported"));
     } else {
       window.addEventListener("deviceorientationabsolute", handler, true);
     }
-  }, [isIOS]);
+  };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(locationHandler);
-  
-  },);
-
-  
+    navigator.geolocation.getCurrentPosition(locationHandler, (error) =>
+      handleGeoError(error)
+    );
+  });
 
   return (
     <div className="app">
       <div className="compass">
-        <img
-          src={compassPic}
-          alt="compass"
-          className="compass-pic"
-          style={{ transform: `rotate(${-heading}deg)` }}
-        />
-        <div
-          className="kaaba-wrapper"
-          style={{ transform: `rotate(${-heading + pointDegree}deg)`,
-          visibility: heading && pointDegree ? 'visible' : 'hidden'
-        }}
-        >
+        <button className="compass-btn" onClick={startCompass}>
+          Start
+        </button>
+        <div className="pic-wrapper">
           <img
-            src={kaaba}
-            alt="kaaba"
-            className="kaaba"
+            src={compassPic}
+            alt="compass"
+            className="compass-pic"
+            style={{ transform: `rotate(${-heading}deg)` }}
           />
+          <div
+            className="kaaba-wrapper"
+            style={{
+              transform: `rotate(${-heading + pointDegree}deg)`,
+              visibility: heading && pointDegree ? "visible" : "hidden",
+            }}
+          >
+            <img src={kaaba} alt="kaaba" className="kaaba" />
+          </div>
+          <img src={arrow} className="compass-arrow" alt="arrow" />
         </div>
-        <img src={arrow} className="compass-arrow" alt="arrow" />
       </div>
     </div>
   );

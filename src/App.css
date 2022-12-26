@@ -11,17 +11,34 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2em;
+}
+
+.compass-btn {
+  background-color: yellow;
+  padding: 5px 20px;
+  font-size: 25px;
+  border: none;
+  border-radius: 5px;
+}
+
+.compass-btn:active {
+  transform: translate(0, 10px);
+}
+
+.pic-wrapper {
   position: relative;
 }
 
 .compass-arrow {
   position: absolute;
-  top: 150px;
-  height: 150px;
+  top: 30%;
+    left: 34%;
 }
 
 .kaaba-wrapper {
   position: absolute;
+  top: 0;
   width: 380px;
   height: 380px;
   display: flex;
@@ -41,7 +58,8 @@ body {
     max-height: 400px;
   }
   .compass-arrow {
-    top: 90px;
+    top: 20%;
+    left: 30%;
   }
 }
 
@@ -51,7 +69,8 @@ body {
     max-height: 280px;
   }
   .compass-arrow {
-    top: 50px;
+    top: 12%;
+    left: 21.5%;
   }
 }
 
@@ -61,10 +80,9 @@ body {
     max-height: 250px;
   }
   .compass-arrow {
-    top: 30px;
-    width: 110px;
+    top: 11%;
+    left: 18%;
   }
-  
 }
 
 @media (max-width:310px) {
@@ -73,8 +91,9 @@ body {
     max-height: 220px;
   }
   .compass-arrow {
-    top: 40px;
-    height: 100px
+    top: 15%;
+    left: 25%;
+    height: 108px;
   }
 }
 
@@ -83,6 +102,9 @@ body {
   .compass-pic, .kaaba-wrapper {
     max-width: 200px;
     max-height: 200px;
+  }
+  .compass-arrow {
+    /* top: 100px; */
   }
   
 }
