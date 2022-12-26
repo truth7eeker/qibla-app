@@ -7,6 +7,7 @@ import arrow from "./assets/arrow.png";
 function App() {
   const [heading, setHeading] = useState(0);
   const [pointDegree, setPointDegree] = useState(0);
+  const [isGeoAllowed, setIsGeoAllowed] = useState(false);
 
   const isIOS =
     navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
@@ -25,6 +26,7 @@ function App() {
     if (pointDegree < 0) {
       setPointDegree((prev) => prev + 360);
     }
+    setIsGeoAllowed(true);
   };
 
   const calcDegreeToPoint = (latitude, longitude) => {
@@ -100,6 +102,9 @@ function App() {
           </div>
           <img src={arrow} className="compass-arrow" alt="arrow" />
         </div>
+        <p style={{ opacity: isGeoAllowed ? '0' : '1'}} className='compass-alert'>
+          Allow geolocation access/ Разрешите доступ к местоположению
+        </p>
       </div>
     </div>
   );

@@ -52,6 +52,11 @@ body {
   transition: all .3s ease-out;
 }
 
+.compass-alert {
+  text-align: center;
+  color: red;
+}
+
 @media (max-width:600px) {
   .compass-pic, .kaaba-wrapper {
     max-width: 400px;
