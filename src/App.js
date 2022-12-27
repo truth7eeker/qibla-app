@@ -87,7 +87,7 @@ function App() {
                <img src={arrow} className="compass-arrow" alt="arrow" />
             </div>
             <p style={{ opacity: start && !pointDegree ? '1' : '0' }} className="compass-alert">
-               Allow geolocation access and tap "Start" again/ Разрешите доступ к местоположению и нажмите "Start" еще раз
+               Allow geolocation access and reload the page/ Разрешите доступ к местоположению и обновите страницу
             </p>
          </div>
       </div>
