@@ -46,6 +46,8 @@ function App() {
    };
 
    const startCompass = () => {
+    navigator.geolocation.getCurrentPosition(locationHandler);
+    setStart(true);
       if (isIOS) {
          DeviceOrientationEvent.requestPermission()
             .then((response) => {
@@ -59,8 +61,7 @@ function App() {
       } else {
          window.addEventListener('deviceorientationabsolute', handler, true);
       }
-      navigator.geolocation.getCurrentPosition(locationHandler);
-      setStart(true);
+      
    };
 
    return (
