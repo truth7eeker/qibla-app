@@ -5,10 +5,14 @@ import kaaba from "./assets/kaaba.png";
 import arrow from "./assets/arrow.png";
 
 function App() {
+  // user's facing direction
   const [heading, setHeading] = useState(0);
+  // kaaba position on the compass
   const [pointDegree, setPointDegree] = useState(null);
-  const [start, setStart] = useState(false);
+  // check how much degrees the phone is tilted back or forth (this is for accuracy issues on Android)
+  const [beta, setBeta] = useState(null);
 
+  // detect phone vs desktop
   const deviceDetector = (function () {
     var b = navigator.userAgent.toLowerCase(),
       a = function (a) {
@@ -40,12 +44,7 @@ function App() {
       e.webkitCompassHeading ? e.webkitCompassHeading : Math.abs(e.alpha - 360)
     );
 
-    if (e.gamma < -70 && e.gamma > -90) {
-      console.log("left");
-    }
-    if (e.gamma > 70 && e.gamma < 90) {
-      console.log("right");
-    }
+    setBeta(e.beta);
   };
 
   const locationHandler = (position) => {
@@ -58,10 +57,12 @@ function App() {
   };
 
   const errorLocationHandler = (error) => {
-    if (error.code === 1 || error.code === 2 || error.code === 3) {
-      window.location.replace("https://www.elahmad.com/maps/qiblamobile.php?latitude={lat}&longitude={long}&zoom=17&t=m");
+    if (error.code === 1) {
+      window.location.replace(
+        "https://www.elahmad.com/maps/qiblamobile.php?latitude={lat}&longitude={long}&zoom=17&t=m"
+      );
     }
-  }
+  };
 
   const calcDegreeToPoint = (latitude, longitude) => {
     // Qibla geolocation
@@ -85,8 +86,10 @@ function App() {
   };
 
   const startCompass = () => {
-    navigator.geolocation.getCurrentPosition(locationHandler, errorLocationHandler);
-    setStart(true);
+    navigator.geolocation.getCurrentPosition(
+      locationHandler,
+      errorLocationHandler
+    );
     if (isIOS) {
       DeviceOrientationEvent.requestPermission()
         .then((response) => {
@@ -103,8 +106,11 @@ function App() {
   };
 
   useEffect(() => {
+    // redirect desktop to another webpage
     if (!deviceDetector.isMobile) {
-      window.location.replace("https://www.elahmad.com/maps/qiblamobile.php?latitude={lat}&longitude={long}&zoom=17&t=m");
+      window.location.replace(
+        "https://www.elahmad.com/maps/qiblamobile.php?latitude={lat}&longitude={long}&zoom=17&t=m"
+      );
     }
   });
 
@@ -132,13 +138,7 @@ function App() {
           </div>
           <img src={arrow} className="compass-arrow" alt="arrow" />
         </div>
-        <p
-          style={{ opacity: start && !pointDegree ? "1" : "0" }}
-          className="compass-alert"
-        >
-          Allow geolocation access and reload the page/ Разрешите доступ к
-          местоположению и обновите страницу
-        </p>
+        <p className="compass-alert">{10 < beta || beta < -10 ? 'Position your device parallel to the ground/ Держите устройство параллельно земле' : ''}</p>
       </div>
     </div>
   );
