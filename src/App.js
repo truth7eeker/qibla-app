@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import compassPic from "./assets/compass.png";
 import kaaba from "./assets/kaaba.png";
@@ -9,8 +9,14 @@ function App() {
   const [heading, setHeading] = useState(0);
   // kaaba position on the compass
   const [pointDegree, setPointDegree] = useState(null);
-  // check how much degrees the phone is tilted back or forth (this is for accuracy issues on Android)
+  // phone tilt back and forth/ left and right (this is for accuracy issues on Android)
   const [beta, setBeta] = useState(null);
+  const [gamma, setGamma] = useState(null)
+  // detect when the Start btn is clicked
+  const [start, setStart] = useState(false);
+  // output congrats message when Qibla is +/- 5 deg from current position
+  const [isQibla, setIsQibla] = useState(false);
+  const message = useMemo(() => handleMessage(), [heading]);
 
   // detect phone vs desktop
   const deviceDetector = (function () {
@@ -44,16 +50,48 @@ function App() {
       e.webkitCompassHeading ? e.webkitCompassHeading : Math.abs(e.alpha - 360)
     );
 
-    setBeta(e.beta);
+    setBeta(e.beta)
+    setGamma(e.gamma)
   };
+
+  function handleVibration() {
+    if (!window.navigator || !window.navigator.vibrate) {
+      return;
+    }
+    window.navigator.vibrate(20);
+  }
+
+  function handleMessage() {
+    let messageText;
+    if (15 < beta || beta < -15 || 15 < gamma || gamma < -15) {
+      messageText =
+        "Position your device parallel to the ground/ Держите устройство параллельно земле";
+      setIsQibla(false);
+    } else if (
+      (start && heading > pointDegree - 5 && heading < pointDegree + 5) ||
+      (start && pointDegree < 5 && heading > 360 - pointDegree) ||
+      (start && pointDegree > 355 && heading < 5 - (360 - pointDegree))
+    ) {
+      messageText = "You've found Qibla/Вы нашли Киблу";
+      setIsQibla(true);
+      handleVibration();
+    } else if (
+      (start && pointDegree + 50 > heading && pointDegree - 50 < heading) ||
+      (start && pointDegree < 50 && heading > 360 - pointDegree) ||
+      (start && pointDegree > 310 && heading < 50 - (360 - pointDegree))
+    ) {
+      messageText = "You're almost there/ Почти у цели";
+      setIsQibla(false);
+    }
+    return messageText;
+  }
 
   const locationHandler = (position) => {
     const { latitude, longitude } = position.coords;
-    setPointDegree(calcDegreeToPoint(latitude, longitude));
-
     if (pointDegree < 0) {
       setPointDegree((prev) => prev + 360);
     }
+    setPointDegree(calcDegreeToPoint(latitude, longitude));
   };
 
   const errorLocationHandler = (error) => {
@@ -82,7 +120,7 @@ function App() {
         Math.cos(phi) * Math.tan(phiK) -
           Math.sin(phi) * Math.cos(lambdaK - lambda)
       );
-    return Math.round(psi);
+    return Math.round(psi) < 0 ? Math.round(psi) + 360 : Math.round(psi);
   };
 
   const startCompass = () => {
@@ -103,6 +141,7 @@ function App() {
     } else {
       window.addEventListener("deviceorientationabsolute", handler, true);
     }
+    setStart(true);
   };
 
   useEffect(() => {
@@ -138,7 +177,12 @@ function App() {
           </div>
           <img src={arrow} className="compass-arrow" alt="arrow" />
         </div>
-        <p className="compass-alert">{10 < beta || beta < -10 ? 'Position your device parallel to the ground/ Держите устройство параллельно земле' : ''}</p>
+        <p
+          className="compass-alert"
+          style={{ color: isQibla ? "green" : "red" }}
+        >
+          {message}
+        </p>
       </div>
     </div>
   );
