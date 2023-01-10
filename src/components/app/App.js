@@ -7,6 +7,7 @@ import { handleMessage } from "../../helpers/outputMessage";
 import Portrait from "../portrait-mode/Portrait";
 import { detectOrientation } from "../../helpers/detectOrientation";
 import { handleRedirect } from "../../helpers/handleRedirect";
+import { calcDeclination } from "../../helpers/calcDeclination";
 
 function App() {
   // user's facing direction
@@ -39,7 +40,8 @@ function App() {
 
   const locationHandler = (position) => {
     const { latitude, longitude } = position.coords;
-    setPointDegree(calcDegreeToPoint(latitude, longitude));
+    const declination = calcDeclination(latitude, longitude)
+    setPointDegree(calcDegreeToPoint(latitude, longitude) - declination);
   };
 
   const startCompass = () => {
@@ -63,10 +65,10 @@ function App() {
   useEffect(() => {
     // redirect desktop to another webpage
     if (!deviceDetector.isMobile) {
-     handleRedirect()
+      handleRedirect();
     }
   });
-
+  
   return (
     <div className="app">
       {!isPortrait ? (
