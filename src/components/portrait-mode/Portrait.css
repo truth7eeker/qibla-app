@@ -1,0 +1,42 @@
+.portrait-mode {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+}
+
+.portrait-mode img {
+   max-width: 500px;
+   max-height: 500px;
+}
+
+.portrait-mode p {
+    text-align: center;
+    color: red;
+ }
+
+ @media (max-width:600px) {
+  .portrait-mode {
+    margin-top: 50%;
+  }
+  .portrait-mode img  {
+      max-width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  @media (max-width:435px) {
+    .portrait-mode img  {
+      max-width: 200px;
+      max-height: 200px;
+    }
+  }
+  
+  @media (max-width:350px) {
+    .portrait-mode img  {
+      max-width: 150px;
+      max-height: 150px;
+    }
+  }
+  
