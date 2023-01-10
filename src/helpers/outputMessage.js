@@ -11,13 +11,13 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
       "Position your device parallel to the ground/ Держите устройство параллельно земле";
     isQibla = false;
   } else if (
-    (pointDegree && heading > qibla - 5 && heading < qibla + 5) ||
-    (pointDegree && qibla < 5 && heading > 360 - qibla) ||
-    (pointDegree && qibla > 355 && heading < 5 - (360 - qibla))
+    (pointDegree && heading > qibla - 2 && heading < qibla + 2) ||
+    (pointDegree && qibla < 2 && heading > 360 - qibla) ||
+    (pointDegree && qibla > 358 && heading < 2 - (360 - qibla))
   ) {
     messageText = "You've found Qibla/Вы нашли Киблу";
     isQibla = true;
-    handleVibration(15);
+    handleVibration(10);
   } else if (
     (pointDegree && qibla + 45 > heading && qibla - 45 < heading) ||
     (pointDegree && qibla < 45 && heading > 360 - qibla) ||
