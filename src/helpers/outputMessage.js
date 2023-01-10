@@ -5,7 +5,7 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
   let isQibla = false;
   let messageText;
   if (heading && !pointDegree) {
-    messageText = "Allow geoloction access / Разрешите доступ к местоположению";
+    messageText = "Allow geoloction access/ Разрешите доступ к местоположению";
   } else if (15 < beta || beta < -15 || 15 < gamma || gamma < -15) {
     messageText =
       "Position your device parallel to the ground/ Держите устройство параллельно земле";
@@ -15,7 +15,7 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
     (pointDegree && qibla < 2 && heading > 360 - qibla) ||
     (pointDegree && qibla > 358 && heading < 2 - (360 - qibla))
   ) {
-    messageText = "You've found Qibla/Вы нашли Киблу";
+    messageText = "You've found Qibla/ Вы нашли Киблу";
     isQibla = true;
     handleVibration(10);
   } else if (
@@ -23,7 +23,7 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
     (pointDegree && qibla < 45 && heading > 360 - qibla) ||
     (pointDegree && qibla > 310 && heading < 45 - (360 - qibla))
   ) {
-    messageText = "You're almost there/ Почти у цели";
+    messageText = "Almost there/ Почти у цели";
     isQibla = false;
   }
   return [messageText, isQibla];
