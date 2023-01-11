@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import Compass from "../compass/Compass";
 import { isIOS, deviceDetector } from "../../helpers/detectDevice";
