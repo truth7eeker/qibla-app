@@ -3,7 +3,7 @@ export const detectOrientation = (heading, gamma) => {
     gamma < -20 && gamma > -90  ? true : false;
 
   const isTurnedRight =
-    gamma > 30 && gamma < 90 ? true : false;
+    gamma > 20 && gamma < 90 ? true : false;
 
   const isPortrait = isTurnedLeft|| isTurnedRight;
 
