@@ -1,44 +1,30 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const path = require("path");
-const webpack = require("webpack");
-const Dotenv = require('dotenv-webpack');
-
-const isDevelopment = process.env.NODE_ENV !== "production";
+const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: isDevelopment ? "development" : "production",
   entry: "./src/index.js",
-  devServer: {
-    hot: true,
-  },
-  target: "web",
+
   output: {
-    filename: "bundle.[hash].js",
-    path: path.resolve(__dirname, "build"),
+    path: path.join(__dirname, "build"),
+    filename: "bundle.js",
   },
+
   plugins: [
-    new HtmlWebpackPlugin({
+    new HTMLWebpackPlugin({
       template: "./src/index.html",
     }),
-    isDevelopment && new webpack.HotModuleReplacementPlugin(),
-    isDevelopment && new ReactRefreshWebpackPlugin(),
-    new Dotenv()
   ],
-  resolve: {
-    modules: [__dirname, "src", "node_modules"],
-    extensions: ["*", ".js", ".jsx" ],
-  },
+
   module: {
     rules: [
       {
-        test: /\.js$|jsx/,
+        test: /\.js$/,
         exclude: /node_modules/,
-        loader: require.resolve("babel-loader"),
-        options: {
-          plugins: [
-            isDevelopment && require.resolve("react-refresh/babel"),
-          ].filter(Boolean),
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
         },
       },
       {
