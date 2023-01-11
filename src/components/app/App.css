@@ -5,6 +5,12 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-p {
-  font-size: 1.2rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  margin-top: 1em;
 }
