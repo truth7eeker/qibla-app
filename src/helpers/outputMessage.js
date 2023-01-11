@@ -5,7 +5,7 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
   let isQibla = false;
   let messageText;
   if (heading && !pointDegree) {
-    messageText = "Allow geoloction access/ Разрешите доступ к местоположению";
+    messageText = "Allow geoloction access and reload the page/ Разрешите доступ к местоположению и обновите страницу";
   } else if (15 < beta || beta < -15 || 15 < gamma || gamma < -15) {
     messageText =
       "Position your device parallel to the ground/ Держите устройство параллельно земле";

@@ -21,11 +21,11 @@
   .pic-wrapper {
     position: relative;
   }
-  
+
   .compass-arrow {
     position: absolute;
     top: 30%;
-      left: 34%;
+    left: 34%;
   }
   
   .kaaba-wrapper {
