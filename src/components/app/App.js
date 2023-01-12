@@ -8,6 +8,7 @@ import Portrait from "../portrait-mode/Portrait";
 import { detectOrientation } from "../../helpers/detectOrientation";
 import { handleRedirect } from "../../helpers/handleRedirect";
 import { calcDeclination } from "../../helpers/calcDeclination";
+import { askLocationPermission } from "../../helpers/askLocationPermission";
 
 function App() {
   // user's facing direction
@@ -40,12 +41,17 @@ function App() {
 
   const locationHandler = (position) => {
     const { latitude, longitude } = position.coords;
-    const declination = calcDeclination(latitude, longitude)
+    const declination = calcDeclination(latitude, longitude);
     setPointDegree(calcDegreeToPoint(latitude, longitude) - declination);
   };
 
   const startCompass = () => {
-    navigator.geolocation.getCurrentPosition(locationHandler);
+    askLocationPermission();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(locationHandler);
+    } else {
+      alert("Geolocations isn't supported by your browser");
+    }
     if (isIOS) {
       DeviceOrientationEvent.requestPermission()
         .then((response) => {
@@ -68,7 +74,7 @@ function App() {
       handleRedirect();
     }
   });
-  
+
   return (
     <div className="app">
       {!isPortrait ? (
