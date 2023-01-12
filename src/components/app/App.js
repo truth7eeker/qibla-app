@@ -46,6 +46,11 @@ function App() {
   };
 
   const startCompass = () => {
+    () => {
+      ym(92022441, "reachGoal", "start");
+      return true;
+    };
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(locationHandler);
     } else {

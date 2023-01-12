@@ -8,7 +8,10 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
     messageText =
       "Position your device parallel to the ground/ Держите устройство параллельно земле";
     isQibla = false;
-  } else if (
+  } else if (heading === qibla) {
+    () => ym(92022441,'reachGoal','success');
+  }
+    else if (
     (pointDegree && heading > qibla - 2 && heading < qibla + 2) ||
     (pointDegree && qibla < 2 && heading > 360 - qibla) ||
     (pointDegree && qibla > 358 && heading < 2 - (360 - qibla))
