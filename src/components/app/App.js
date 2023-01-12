@@ -46,7 +46,6 @@ function App() {
   };
 
   const startCompass = () => {
-    askLocationPermission();
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(locationHandler);
     } else {
@@ -69,6 +68,7 @@ function App() {
   };
 
   useEffect(() => {
+    askLocationPermission();
     // redirect desktop to another webpage
     if (!deviceDetector.isMobile) {
       handleRedirect();
