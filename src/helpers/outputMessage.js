@@ -17,8 +17,8 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
   ) {
     messageText = "You've found Qibla/ Вы нашли Киблу";
     isQibla = true;
-    // yandex metrica - detect reaching the goal
     handleVibration(10);
+    // yandex metrica - detect reaching the goal
     !checkSession("reachGoal", true)
       ? reachQibla("reachGoal", "success")
       : null;
