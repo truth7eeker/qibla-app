@@ -9,6 +9,8 @@ import { detectOrientation } from "../../helpers/detectOrientation";
 import { handleRedirect } from "../../helpers/handleRedirect";
 import { calcDeclination } from "../../helpers/calcDeclination";
 import { askLocationPermission } from "../../helpers/askLocationPermission";
+import { startMetric } from "../../helpers/yandexMetric";
+import { checkSession } from "../../helpers/handleSession";
 
 function App() {
   // user's facing direction
@@ -46,10 +48,8 @@ function App() {
   };
 
   const startCompass = () => {
-    () => {
-      ym(92022441, "reachGoal", "start");
-      return true;
-    };
+    // yandex metrica - detect start-btn click
+    !checkSession("start", true) ? startMetric("reachGoal", "start") : null;
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(locationHandler);

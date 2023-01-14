@@ -1,4 +1,6 @@
+import { checkSession } from "./handleSession";
 import { handleVibration } from "./handleVibration";
+import { reachQibla } from "./yandexMetric";
 
 export function handleMessage(heading, beta, gamma, pointDegree) {
   const qibla = pointDegree < 0 ? pointDegree + 360 : pointDegree;
@@ -8,10 +10,7 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
     messageText =
       "Position your device parallel to the ground/ Держите устройство параллельно земле";
     isQibla = false;
-  } else if (heading === qibla) {
-    () => ym(92022441,'reachGoal','success');
-  }
-    else if (
+  } else if (
     (pointDegree && heading > qibla - 2 && heading < qibla + 2) ||
     (pointDegree && qibla < 2 && heading > 360 - qibla) ||
     (pointDegree && qibla > 358 && heading < 2 - (360 - qibla))
@@ -19,6 +18,9 @@ export function handleMessage(heading, beta, gamma, pointDegree) {
     messageText = "You've found Qibla/ Вы нашли Киблу";
     isQibla = true;
     handleVibration(10);
+    !checkSession("reachGoal", true)
+      ? reachQibla("reachGoal", "success")
+      : null;
   } else if (
     (pointDegree && qibla + 45 > heading && qibla - 45 < heading) ||
     (pointDegree && qibla < 45 && heading > 360 - qibla) ||
