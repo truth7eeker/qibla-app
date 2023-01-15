@@ -73,7 +73,7 @@ function App() {
   };
 
   useEffect(() => {
-    askLocationPermission();
+    // askLocationPermission();
     // redirect desktop to another webpage
     if (!deviceDetector.isMobile) {
       handleRedirect();
