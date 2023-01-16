@@ -2,15 +2,15 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import Compass from "../compass/Compass";
 import { isIOS, deviceDetector } from "../../helpers/detectDevice";
-import { calcDegreeToPoint } from "../../helpers/calcDegreeToPoint";
 import { handleMessage } from "../../helpers/outputMessage";
 import Portrait from "../portrait-mode/Portrait";
 import { detectOrientation } from "../../helpers/detectOrientation";
 import { handleRedirect } from "../../helpers/handleRedirect";
-import { calcDeclination } from "../../helpers/calcDeclination";
-import { askLocationPermission } from "../../helpers/askLocationPermission";
+import { setQibla } from "../../helpers/calcDeclination";
 import { startMetric } from "../../helpers/yandexMetric";
 import { checkSession } from "../../helpers/handleSession";
+import { getIpinfo } from "../../helpers/getIpinfo";
+import { askLocationPermission } from "../../helpers/askLocationPermission";
 
 function App() {
   // user's facing direction
@@ -33,6 +33,8 @@ function App() {
     gamma
   );
 
+  const [geoData, setGeoData] = useState(null);
+
   const handler = (e) => {
     setHeading(
       e.webkitCompassHeading ? e.webkitCompassHeading : Math.abs(e.alpha - 360)
@@ -43,8 +45,12 @@ function App() {
 
   const locationHandler = (position) => {
     const { latitude, longitude } = position.coords;
-    const declination = calcDeclination(latitude, longitude);
-    setPointDegree(calcDegreeToPoint(latitude, longitude) - declination);
+    setQibla(latitude, longitude, setPointDegree)
+  };
+
+  const ipHandler = () => {
+    const { latitude, longitude } = geoData;
+    setQibla(latitude, longitude, setPointDegree)
   };
 
   const startCompass = () => {
@@ -52,10 +58,15 @@ function App() {
     !checkSession("start", true) ? startMetric("reachGoal", "start") : null;
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(locationHandler);
+      navigator.geolocation.getCurrentPosition(locationHandler, ipHandler);
     } else {
-      alert("Geolocations isn't supported by your browser");
+      ipHandler();
     }
+
+    if (isIOS && !askLocationPermission()) {
+      ipHandler();
+    }
+
     if (isIOS) {
       DeviceOrientationEvent.requestPermission()
         .then((response) => {
@@ -73,12 +84,12 @@ function App() {
   };
 
   useEffect(() => {
-    // askLocationPermission();
     // redirect desktop to another webpage
     if (!deviceDetector.isMobile) {
       handleRedirect();
     }
-  });
+    getIpinfo(setGeoData);
+  }, []);
 
   return (
     <div className="app">
