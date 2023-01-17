@@ -55,7 +55,6 @@ function App() {
       const { latitude, longitude } = getParams(window.location.search);
       setQibla(Number(latitude), Number(longitude), setPointDegree);
     } 
-    console.log(isBotUser)
   };
 
   const startCompass = () => {
