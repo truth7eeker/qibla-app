@@ -38,7 +38,7 @@ function Compass({
       </div>
       <p className="compass-alert" style={{ color: isQibla ? "green" : "red" }}>
         {/* {start && message} */}
-        {isBotUser}
+        {isBotUser ? 'bot' : 'web'}
       </p>
     </div>
   );

@@ -91,7 +91,7 @@ function App() {
     }
 
     // detect bot user VS web user
-    if (window.location.search) {
+    if (window.location.search !== '') {
       setIsBotUser(true);
     } else {
       setIsBotUser(false);
