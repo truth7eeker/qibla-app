@@ -88,7 +88,6 @@ function App() {
       setIsBotUser(false);
     }
   }, []);
-
   return (
     <div className="app">
       {!isPortrait ? (
