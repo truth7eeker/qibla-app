@@ -11,6 +11,7 @@ function Compass({
   startCompass,
   message,
   start,
+  isBotUser
 }) {
   return (
     <div className="compass">
