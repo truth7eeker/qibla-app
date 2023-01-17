@@ -7,7 +7,7 @@ import Portrait from "../portrait-mode/Portrait";
 import { detectOrientation } from "../../helpers/detectOrientation";
 import { getParams, handleRedirect } from "../../helpers/handleRedirect";
 import { setQibla } from "../../helpers/calcDeclination";
-import { startMetric } from "../../helpers/yandexMetric";
+import { checkGPS, startMetric } from "../../helpers/yandexMetric";
 import { checkSession } from "../../helpers/handleSession";
 
 function App() {
@@ -42,12 +42,20 @@ function App() {
   };
 
   const locationHandler = (position) => {
-    const isGPSAndBot = isBotUser && position.coords;
-    const { latitude, longitude } =
-      isGPSAndBot || !isBotUser
-        ? position.coords
-        : getParams('?latitude=29.1982&longitude=22.1331');
+    // yandex metrica - detect good GPS signal
+    !checkSession("gps", true) ? checkGPS("reachGoal", "gps_ok") : null;
+
+    const { latitude, longitude } = position.coords;
     setQibla(latitude, longitude, setPointDegree);
+  };
+
+  const handleError = () => {
+    if (isBotUser) {
+      const { latitude, longitude } = getParams(window.location.search);
+      setQibla(latitude, longitude, setPointDegree);
+    } else {
+      return
+    }
   };
 
   const startCompass = () => {
@@ -55,7 +63,7 @@ function App() {
     !checkSession("start", true) ? startMetric("reachGoal", "start") : null;
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(locationHandler);
+      navigator.geolocation.getCurrentPosition(locationHandler, handleError);
     } else {
       alert("Geolocation isn't supported");
     }
@@ -78,16 +86,19 @@ function App() {
 
   useEffect(() => {
     // redirect desktop to another webpage
-    if (!deviceDetector.isMobile) {
+    if (deviceDetector.device == 'desktop' || deviceDetector.device == 'tablet') {
       handleRedirect();
     }
+    
     // detect bot user VS web user
-    if (true === true) {
+    if (window.location.search) {
       setIsBotUser(true);
     } else {
       setIsBotUser(false);
     }
   }, []);
+
+  console.log(isBotUser)
   return (
     <div className="app">
       {!isPortrait ? (
