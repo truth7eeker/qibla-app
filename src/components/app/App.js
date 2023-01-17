@@ -52,10 +52,8 @@ function App() {
   const handleError = () => {
     if (isBotUser) {
       const { latitude, longitude } = getParams(window.location.search);
-      setQibla(latitude, longitude, setPointDegree);
-    } else {
-      return
-    }
+      setQibla(Number(latitude), Number(longitude), setPointDegree);
+    } 
   };
 
   const startCompass = () => {

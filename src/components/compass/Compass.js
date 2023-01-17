@@ -36,8 +36,7 @@ function Compass({
         <img src={arrow} className="compass-arrow" alt="arrow" />
       </div>
       <p className="compass-alert" style={{ color: isQibla ? "green" : "red" }}>
-        {/* {start && message} */}
-        {window.location.href}
+        {start && message}
       </p>
     </div>
   );

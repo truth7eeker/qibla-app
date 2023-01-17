@@ -7,7 +7,7 @@ export const getParams = (search) => {
     const pair = pairs[i].split("=");
     params[pair[0]] = pair[1];
   }
-  return params;
+  return params
 };
 
 export const handleRedirect = () => {
