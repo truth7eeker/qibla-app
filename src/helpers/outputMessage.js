@@ -6,6 +6,10 @@ export function handleMessage(heading, beta, gamma, pointDegree, isBotUser) {
   const qibla = pointDegree < 0 ? pointDegree + 360 : pointDegree;
   let isQibla = false;
   let messageText;
+  if (isBotUser && !pointDegree) {
+    messageText = "Getting your coords.../ Получаем координаты"
+  }
+  
   if (!isBotUser && !pointDegree) {
     messageText = "Allow GPS access and tap Start/ Разрешите доступ к GPS и нажмите Start"
   }

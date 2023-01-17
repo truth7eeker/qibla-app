@@ -20,6 +20,8 @@ function App() {
   const [gamma, setGamma] = useState(null);
   // detect when the Start btn is clicked
   const [start, setStart] = useState(false);
+  // check if the page is open from the telegram bot or website
+  const [isBotUser, setIsBotUser] = useState(false);
   // output congrats message when Qibla is +/- 5 deg from current position
   const [messageText, isQibla] = useMemo(
     () => handleMessage(heading, beta, gamma, pointDegree, isBotUser),
@@ -30,8 +32,7 @@ function App() {
     beta,
     gamma
   );
-  // check if the page is open from the telegram bot or website
-  const [isBotUser, setIsBotUser] = useState(false);
+  
 
   const handler = (e) => {
     setHeading(
@@ -54,6 +55,7 @@ function App() {
       const { latitude, longitude } = getParams(window.location.search);
       setQibla(Number(latitude), Number(longitude), setPointDegree);
     } 
+    console.log(isBotUser)
   };
 
   const startCompass = () => {
@@ -106,6 +108,7 @@ function App() {
           startCompass={startCompass}
           message={messageText}
           start={start}
+          isBotUser={isBotUser}
         />
       ) : (
         <Portrait isTurnedLeft={isTurnedLeft} isTurnedRight={isTurnedRight} />
