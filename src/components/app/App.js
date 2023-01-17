@@ -89,7 +89,7 @@ function App() {
     if (deviceDetector.device == 'desktop' || deviceDetector.device == 'tablet') {
       handleRedirect();
     }
-    
+
     // detect bot user VS web user
     if (window.location.search) {
       setIsBotUser(true);
@@ -98,7 +98,6 @@ function App() {
     }
   }, []);
 
-  console.log(isBotUser)
   return (
     <div className="app">
       {!isPortrait ? (
