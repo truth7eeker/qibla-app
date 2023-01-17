@@ -37,7 +37,7 @@ function Compass({
       </div>
       <p className="compass-alert" style={{ color: isQibla ? "green" : "red" }}>
         {/* {start && message} */}
-        {window.location.search}
+        {window.location.href}
       </p>
     </div>
   );
