@@ -46,7 +46,7 @@ function App() {
     const { latitude, longitude } =
       isGPSAndBot || !isBotUser
         ? position.coords
-        : getParams(window.location.search);
+        : getParams('?latitude=29.1982&longitude=22.1331');
     setQibla(latitude, longitude, setPointDegree);
   };
 
@@ -82,7 +82,7 @@ function App() {
       handleRedirect();
     }
     // detect bot user VS web user
-    if (window.location.search) {
+    if (true === true) {
       setIsBotUser(true);
     } else {
       setIsBotUser(false);
