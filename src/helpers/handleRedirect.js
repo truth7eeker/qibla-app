@@ -1,6 +1,6 @@
-const REDIRECT_URL = process.env.REACT_APP_REDIRECT_URL;
+const REDIRECT_URL = 'https://www.elahmad.com/maps/qiblamobile.php';
 
-const getParams = (search) => {
+export const getParams = (search) => {
   const params = {};
   const pairs = search.split("?")[1].split("&");
   for (let i = 0; i < pairs.length; i++) {

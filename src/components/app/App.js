@@ -5,12 +5,10 @@ import { isIOS, deviceDetector } from "../../helpers/detectDevice";
 import { handleMessage } from "../../helpers/outputMessage";
 import Portrait from "../portrait-mode/Portrait";
 import { detectOrientation } from "../../helpers/detectOrientation";
-import { handleRedirect } from "../../helpers/handleRedirect";
+import { getParams, handleRedirect } from "../../helpers/handleRedirect";
 import { setQibla } from "../../helpers/calcDeclination";
 import { startMetric } from "../../helpers/yandexMetric";
 import { checkSession } from "../../helpers/handleSession";
-import { getIpinfo } from "../../helpers/getIpinfo";
-import { askLocationPermission } from "../../helpers/askLocationPermission";
 
 function App() {
   // user's facing direction
@@ -24,16 +22,16 @@ function App() {
   const [start, setStart] = useState(false);
   // output congrats message when Qibla is +/- 5 deg from current position
   const [messageText, isQibla] = useMemo(
-    () => handleMessage(heading, beta, gamma, pointDegree),
-    [heading, beta, gamma, pointDegree]
+    () => handleMessage(heading, beta, gamma, pointDegree, isBotUser),
+    [heading, beta, gamma, pointDegree, isBotUser]
   );
   // detect orientation
   const [isTurnedLeft, isTurnedRight, isPortrait] = detectOrientation(
     heading,
     gamma
   );
-
-  const [geoData, setGeoData] = useState(null);
+  // check if the page is open from the telegram bot or website
+  const [isBotUser, setIsBotUser] = useState(false);
 
   const handler = (e) => {
     setHeading(
@@ -44,13 +42,12 @@ function App() {
   };
 
   const locationHandler = (position) => {
-    const { latitude, longitude } = position.coords;
-    setQibla(latitude, longitude, setPointDegree)
-  };
-
-  const ipHandler = () => {
-    const { latitude, longitude } = geoData;
-    setQibla(latitude, longitude, setPointDegree)
+    const isGPSAndBot = isBotUser && position.coords;
+    const { latitude, longitude } =
+      isGPSAndBot || !isBotUser
+        ? position.coords
+        : getParams(window.location.search);
+    setQibla(latitude, longitude, setPointDegree);
   };
 
   const startCompass = () => {
@@ -58,13 +55,9 @@ function App() {
     !checkSession("start", true) ? startMetric("reachGoal", "start") : null;
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(locationHandler, ipHandler);
+      navigator.geolocation.getCurrentPosition(locationHandler);
     } else {
-      ipHandler();
-    }
-
-    if (isIOS && !askLocationPermission()) {
-      ipHandler();
+      alert("Geolocation isn't supported");
     }
 
     if (isIOS) {
@@ -85,11 +78,17 @@ function App() {
 
   useEffect(() => {
     // redirect desktop to another webpage
-    if (!deviceDetector.isMobile) {
-      handleRedirect();
+    // if (!deviceDetector.isMobile) {
+    //   handleRedirect();
+    // }
+    if (window.location.search) {
+      setIsBotUser(true);
+    } else {
+      setIsBotUser(false);
     }
-    getIpinfo(setGeoData);
   }, []);
+
+  console.log(window.location.serach)
 
   return (
     <div className="app">
