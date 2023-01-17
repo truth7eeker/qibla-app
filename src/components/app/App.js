@@ -107,7 +107,6 @@ function App() {
           startCompass={startCompass}
           message={messageText}
           start={start}
-          isBotUser={isBotUser}
         />
       ) : (
         <Portrait isTurnedLeft={isTurnedLeft} isTurnedRight={isTurnedRight} />

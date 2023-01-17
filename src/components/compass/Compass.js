@@ -3,7 +3,6 @@ import "./Compass.css";
 import compassPic from "../../assets/compass.png";
 import kaaba from "../../assets/kaaba.png";
 import arrow from "../../assets/arrow.png";
-import { getParams } from "../../helpers/handleRedirect";
 
 function Compass({
   heading,
@@ -12,10 +11,8 @@ function Compass({
   startCompass,
   message,
   start,
-  isBotUser
 }) 
 {
-  const { latitude, longitude } = getParams(window.location.search);
   return (
     <div className="compass">
       <button className="compass-btn" onClick={startCompass}>
@@ -40,10 +37,7 @@ function Compass({
         <img src={arrow} className="compass-arrow" alt="arrow" />
       </div>
       <p className="compass-alert" style={{ color: isQibla ? "green" : "red" }}>
-        {/* {start && message} */}
-        {isBotUser ? 'bot' : 'web'}
-        lat: ${latitude}
-        long: ${longitude}
+        {start && message}
       </p>
     </div>
   );
