@@ -27,7 +27,7 @@ function App() {
   );
   // detect orientation
   const [isTurnedLeft, isTurnedRight, isPortrait] = detectOrientation(
-    heading,
+    beta,
     gamma
   );
   // check if the page is open from the telegram bot or website
@@ -78,17 +78,16 @@ function App() {
 
   useEffect(() => {
     // redirect desktop to another webpage
-    // if (!deviceDetector.isMobile) {
-    //   handleRedirect();
-    // }
+    if (!deviceDetector.isMobile) {
+      handleRedirect();
+    }
+    // detect bot user VS web user
     if (window.location.search) {
       setIsBotUser(true);
     } else {
       setIsBotUser(false);
     }
   }, []);
-
-  console.log(window.location.serach)
 
   return (
     <div className="app">

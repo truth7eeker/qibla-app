@@ -7,7 +7,7 @@ export function handleMessage(heading, beta, gamma, pointDegree, isBotUser) {
   let isQibla = false;
   let messageText;
   if (!isBotUser && !pointDegree) {
-    messageText = "Allow GPS access and tap Start again/ Разрешите доступ к GPS и нажмите Start"
+    messageText = "Allow GPS access and tap Start/ Разрешите доступ к GPS и нажмите Start"
   }
   else if (15 < beta || beta < -15 || 15 < gamma || gamma < -15) {
     messageText =
