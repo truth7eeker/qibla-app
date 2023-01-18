@@ -110,9 +110,9 @@ function App() {
 
   useEffect(() => {
     // redirect desktop to another webpage
-    // if (deviceDetector.device == 'desktop' || deviceDetector.device == 'tablet') {
-    //   handleRedirect();
-    // }
+    if (deviceDetector.device == 'desktop' || deviceDetector.device == 'tablet') {
+      handleRedirect();
+    }
 
     // detect bot user VS web user
     if (window.location.search !== '') {
