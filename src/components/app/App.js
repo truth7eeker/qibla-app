@@ -53,8 +53,6 @@ function App() {
     beta,
     gamma
   );
-  const [coords, setCoords] = useState(null)
-  const [err, setErr] = useState(null)
 
   const handler = (e) => {
     setHeading(
@@ -71,33 +69,19 @@ function App() {
     const {
       latitude,
       longitude
-    } = position.coords;
-    setQibla(latitude, longitude, setPointDegree);
-    setCoords({
-      "latitude": position.coords.latitude,
-      "longitude": position.coords.longitude
-    })
+    } = isBotUser && !position.coords ? getParams(window.location.search) : position.coords;
+    setQibla(Number(latitude), Number(longitude), setPointDegree);
   }
 
-  const handleError = (err) => {
-    // if (isBotUser) {
-    //   const {
-    //     latitude,
-    //     longitude
-    //   } = getParams(window.location.search);
-    //   setQibla(Number(latitude), Number(longitude), setPointDegree);
-    // }
-    setErr(err.message)
-  };
 
   const startCompass = () => {
     // yandex metrica - detect start-btn click
     !checkSession("start", true) ? startMetric("reachGoal", "start") : null;
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(locationHandler, handleError);
+      navigator.geolocation.getCurrentPosition(locationHandler);
     } else {
-      alert("Geolocation isn't supported");
+      alert("Geolocation isn't supported/Геолокация не поддерживается");
     }
 
     if (isIOS) {
@@ -150,8 +134,6 @@ function App() {
         start = {
           start
         }
-        err={err}
-        coords={coords}
         />
       ) : ( <
         Portrait isTurnedLeft = {

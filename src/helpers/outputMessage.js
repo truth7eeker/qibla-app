@@ -10,7 +10,7 @@ export function handleMessage(heading, beta, gamma, pointDegree, isBotUser) {
     messageText = "Getting your coords.../ Получаем координаты"
   }
   
-  if (!isBotUser && !pointDegree) {
+  else if (!isBotUser && !pointDegree) {
     messageText = "Allow GPS access and tap Start/ Разрешите доступ к GPS и нажмите Start"
   }
   else if (15 < beta || beta < -15 || 15 < gamma || gamma < -15) {
