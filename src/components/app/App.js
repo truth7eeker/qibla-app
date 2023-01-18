@@ -45,14 +45,16 @@ function App() {
   const [isBotUser, setIsBotUser] = useState(false);
   // output congrats message when Qibla is +/- 5 deg from current position
   const [messageText, isQibla] = useMemo(
-    () => handleMessage(heading, beta, gamma, pointDegree, isBotUser),
-    [heading, beta, gamma, pointDegree, isBotUser]
+    () => handleMessage(heading, beta, gamma, pointDegree, isBotUser, teleErr),
+    [heading, beta, gamma, pointDegree, isBotUser, teleErr]
   );
   // detect orientation
   const [isTurnedLeft, isTurnedRight, isPortrait] = detectOrientation(
     beta,
     gamma
   );
+const [teleErr, setTeleErr] = useState(null)
+
 
   const handler = (e) => {
     setHeading(
@@ -69,17 +71,20 @@ function App() {
     const {
       latitude,
       longitude
-    } = isBotUser && !position.coords ? getParams(window.location.search) : position.coords;
+    } = !position.coords ? getParams(window.location.search) : position.coords;
     setQibla(Number(latitude), Number(longitude), setPointDegree);
   }
 
+  const errorHandler = (err) => {
+    isBotUser && setTeleErr(err.code)
+  }
 
   const startCompass = () => {
     // yandex metrica - detect start-btn click
     !checkSession("start", true) ? startMetric("reachGoal", "start") : null;
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(locationHandler);
+      navigator.geolocation.getCurrentPosition(locationHandler, errorHandler);
     } else {
       alert("Geolocation isn't supported/Геолокация не поддерживается");
     }
