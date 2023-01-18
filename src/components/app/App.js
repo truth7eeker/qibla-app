@@ -1,35 +1,14 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState
-} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import Compass from "../compass/Compass";
-import {
-  isIOS,
-  deviceDetector
-} from "../../helpers/detectDevice";
-import {
-  handleMessage
-} from "../../helpers/outputMessage";
+import { isIOS, deviceDetector } from "../../helpers/detectDevice";
+import { handleMessage } from "../../helpers/outputMessage";
 import Portrait from "../portrait-mode/Portrait";
-import {
-  detectOrientation
-} from "../../helpers/detectOrientation";
-import {
-  getParams,
-  handleRedirect
-} from "../../helpers/handleRedirect";
-import {
-  setQibla
-} from "../../helpers/calcDeclination";
-import {
-  checkGPS,
-  startMetric
-} from "../../helpers/yandexMetric";
-import {
-  checkSession
-} from "../../helpers/handleSession";
+import { detectOrientation } from "../../helpers/detectOrientation";
+import { getParams, handleRedirect } from "../../helpers/handleRedirect";
+import { setQibla } from "../../helpers/calcDeclination";
+import { checkGPS, startMetric } from "../../helpers/yandexMetric";
+import { checkSession } from "../../helpers/handleSession";
 
 function App() {
   // user's facing direction
@@ -55,8 +34,8 @@ function App() {
   );
 
   // handle telegram webapps bugs
-  const [teleErr, setTeleErr] = useState(null)
-  const [position, setPosition] = useState('')
+  const [teleErr, setTeleErr] = useState(null);
+  const [position, setPosition] = useState("");
 
   const handler = (e) => {
     setHeading(
@@ -70,17 +49,14 @@ function App() {
     // yandex metrica - detect good GPS signal
     !checkSession("gps", true) ? checkGPS("reachGoal", "gps_ok") : null;
 
-    const {
-      latitude,
-      longitude
-    } = position.coords;
+    const { latitude, longitude } = position.coords;
     setQibla(Number(latitude), Number(longitude), setPointDegree);
-    setPosition(position.coords)
-  }
+    setPosition(position.coords);
+  };
 
   const errorHandler = (err) => {
-    isBotUser && setTeleErr(err.code)
-  }
+    isBotUser && setTeleErr(err.code);
+  };
 
   const startCompass = () => {
     // yandex metrica - detect start-btn click
@@ -110,12 +86,15 @@ function App() {
 
   useEffect(() => {
     // redirect desktop to another webpage
-    if (deviceDetector.device == 'desktop' || deviceDetector.device == 'tablet') {
+    if (
+      deviceDetector.device == "desktop" ||
+      deviceDetector.device == "tablet"
+    ) {
       handleRedirect();
     }
 
     // detect bot user VS web user
-    if (window.location.search !== '') {
+    if (window.location.search !== "") {
       setIsBotUser(true);
     } else {
       setIsBotUser(false);
@@ -124,48 +103,29 @@ function App() {
 
   useEffect(() => {
     if (start && isBotUser && !teleErr && !position) {
-      const {
-        latitude,
-        longitude
-      } = getParams(window.location.search);
+      const { latitude, longitude } = getParams(window.location.search);
       setQibla(Number(latitude), Number(longitude), setPointDegree);
     }
-  })
+  });
 
-  return ( <div className = "app"> {
-    !isPortrait ? ( <
-      Compass heading = {
-        heading
-      }
-      pointDegree = {
-        pointDegree
-      }
-      isQibla = {
-        isQibla
-      }
-      startCompass = {
-        startCompass
-      }
-      message = {
-        messageText
-      }
-      start = {
-        start
-      }
-      position = {
-        position
-      }
-      />
-    ) : ( <
-      Portrait isTurnedLeft = {
-        isTurnedLeft
-      }
-      isTurnedRight = {
-        isTurnedRight
-      }
-      />
-    )
-  } </div>);
+  return (
+    <div className="app">
+      {" "}
+      {!isPortrait ? (
+        <Compass
+          heading={heading}
+          pointDegree={pointDegree}
+          isQibla={isQibla}
+          startCompass={startCompass}
+          message={messageText}
+          start={start}
+          position={position}
+        />
+      ) : (
+        <Portrait isTurnedLeft={isTurnedLeft} isTurnedRight={isTurnedRight} />
+      )}{" "}
+    </div>
+  );
 }
 
 export default App;

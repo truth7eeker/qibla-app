@@ -10,8 +10,7 @@ function Compass({
   isQibla,
   startCompass,
   message,
-  start,
-  position
+  start
 }) 
 {
   return (
