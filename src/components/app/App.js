@@ -74,8 +74,8 @@ function App() {
     } = position.coords;
     setQibla(latitude, longitude, setPointDegree);
     setCoords({
-      "latitude": getParams(window.location.search),
-      "longitude": getParams(window.location.search)
+      "latitude": position.coords.latitude,
+      "longitude": position.coords.longitude
     })
   }
 
