@@ -71,7 +71,7 @@ const [teleErr, setTeleErr] = useState(null)
     const {
       latitude,
       longitude
-    } = !position.coords ? getParams(window.location.search) : position.coords;
+    } = isBotUser && (!position.coords.latitude || !position.coords.longitude) ? getParams(window.location.search) : position.coords;
     setQibla(Number(latitude), Number(longitude), setPointDegree);
   }
 
