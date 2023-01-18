@@ -53,8 +53,10 @@ function App() {
     beta,
     gamma
   );
-const [teleErr, setTeleErr] = useState(null)
-const [position, setPosition] = useState('')
+
+  // handle telegram webapps bugs
+  const [teleErr, setTeleErr] = useState(null)
+  const [position, setPosition] = useState('')
 
   const handler = (e) => {
     setHeading(
@@ -71,7 +73,7 @@ const [position, setPosition] = useState('')
     const {
       latitude,
       longitude
-    } = isBotUser && (!position.coords.latitude || !position.coords.longitude) ? getParams(window.location.search) : position.coords;
+    } = position.coords;
     setQibla(Number(latitude), Number(longitude), setPointDegree);
     setPosition(position.coords)
   }
@@ -120,39 +122,50 @@ const [position, setPosition] = useState('')
     }
   }, []);
 
+  useEffect(() => {
+    if (start && isBotUser && !teleErr && !position) {
+      const {
+        latitude,
+        longitude
+      } = getParams(window.location.search);
+      setQibla(Number(latitude), Number(longitude), setPointDegree);
+    }
+  })
+
   return ( <div className = "app"> {
-      !isPortrait ? ( <
-        Compass heading = {
-          heading
-        }
-        pointDegree = {
-          pointDegree
-        }
-        isQibla = {
-          isQibla
-        }
-        startCompass = {
-          startCompass
-        }
-        message = {
-          messageText
-        }
-        start = {
-          start
-        }
-        position={position}
-        />
-      ) : ( <
-        Portrait isTurnedLeft = {
-          isTurnedLeft
-        }
-        isTurnedRight = {
-          isTurnedRight
-        }
-        />
-      )
-    } </div>
-  );
+    !isPortrait ? ( <
+      Compass heading = {
+        heading
+      }
+      pointDegree = {
+        pointDegree
+      }
+      isQibla = {
+        isQibla
+      }
+      startCompass = {
+        startCompass
+      }
+      message = {
+        messageText
+      }
+      start = {
+        start
+      }
+      position = {
+        position
+      }
+      />
+    ) : ( <
+      Portrait isTurnedLeft = {
+        isTurnedLeft
+      }
+      isTurnedRight = {
+        isTurnedRight
+      }
+      />
+    )
+  } </div>);
 }
 
 export default App;
