@@ -11,6 +11,7 @@ function Compass({
   startCompass,
   message,
   start,
+  position
 }) 
 {
   return (
@@ -37,7 +38,8 @@ function Compass({
         <img src={arrow} className="compass-arrow" alt="arrow" />
       </div>
       <p className="compass-alert" style={{ color: isQibla ? "green" : "red" }}>
-        {start && message} 
+        {/* {start && message}  */}
+        {position ? 'found position' : 'no position'}
       </p>
     </div>
   );

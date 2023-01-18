@@ -54,7 +54,7 @@ function App() {
     gamma
   );
 const [teleErr, setTeleErr] = useState(null)
-
+const [position, setPosition] = useState('')
 
   const handler = (e) => {
     setHeading(
@@ -73,6 +73,7 @@ const [teleErr, setTeleErr] = useState(null)
       longitude
     } = isBotUser && (!position.coords.latitude || !position.coords.longitude) ? getParams(window.location.search) : position.coords;
     setQibla(Number(latitude), Number(longitude), setPointDegree);
+    setPosition(position.coords)
   }
 
   const errorHandler = (err) => {
@@ -139,6 +140,7 @@ const [teleErr, setTeleErr] = useState(null)
         start = {
           start
         }
+        position={position}
         />
       ) : ( <
         Portrait isTurnedLeft = {
