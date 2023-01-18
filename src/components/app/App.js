@@ -1,14 +1,35 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 import "./App.css";
 import Compass from "../compass/Compass";
-import { isIOS, deviceDetector } from "../../helpers/detectDevice";
-import { handleMessage } from "../../helpers/outputMessage";
+import {
+  isIOS,
+  deviceDetector
+} from "../../helpers/detectDevice";
+import {
+  handleMessage
+} from "../../helpers/outputMessage";
 import Portrait from "../portrait-mode/Portrait";
-import { detectOrientation } from "../../helpers/detectOrientation";
-import { getParams, handleRedirect } from "../../helpers/handleRedirect";
-import { setQibla } from "../../helpers/calcDeclination";
-import { checkGPS, startMetric } from "../../helpers/yandexMetric";
-import { checkSession } from "../../helpers/handleSession";
+import {
+  detectOrientation
+} from "../../helpers/detectOrientation";
+import {
+  getParams,
+  handleRedirect
+} from "../../helpers/handleRedirect";
+import {
+  setQibla
+} from "../../helpers/calcDeclination";
+import {
+  checkGPS,
+  startMetric
+} from "../../helpers/yandexMetric";
+import {
+  checkSession
+} from "../../helpers/handleSession";
 
 function App() {
   // user's facing direction
@@ -32,7 +53,8 @@ function App() {
     beta,
     gamma
   );
-  
+  const [coords, setCoords] = useState(null)
+  const [err, setErr] = useState(null)
 
   const handler = (e) => {
     setHeading(
@@ -46,15 +68,26 @@ function App() {
     // yandex metrica - detect good GPS signal
     !checkSession("gps", true) ? checkGPS("reachGoal", "gps_ok") : null;
 
-    const { latitude, longitude } = position.coords;
+    const {
+      latitude,
+      longitude
+    } = position.coords;
     setQibla(latitude, longitude, setPointDegree);
-  };
+    setCoords({
+      "latitude": getParams(window.location.search),
+      "longitude": getParams(window.location.search)
+    })
+  }
 
-  const handleError = () => {
-    if (isBotUser) {
-      const { latitude, longitude } = getParams(window.location.search);
-      setQibla(Number(latitude), Number(longitude), setPointDegree);
-    } 
+  const handleError = (err) => {
+    // if (isBotUser) {
+    //   const {
+    //     latitude,
+    //     longitude
+    //   } = getParams(window.location.search);
+    //   setQibla(Number(latitude), Number(longitude), setPointDegree);
+    // }
+    setErr(err.message)
   };
 
   const startCompass = () => {
@@ -97,21 +130,39 @@ function App() {
     }
   }, []);
 
-  return (
-    <div className="app">
-      {!isPortrait ? (
-        <Compass
-          heading={heading}
-          pointDegree={pointDegree}
-          isQibla={isQibla}
-          startCompass={startCompass}
-          message={messageText}
-          start={start}
+  return ( <div className = "app"> {
+      !isPortrait ? ( <
+        Compass heading = {
+          heading
+        }
+        pointDegree = {
+          pointDegree
+        }
+        isQibla = {
+          isQibla
+        }
+        startCompass = {
+          startCompass
+        }
+        message = {
+          messageText
+        }
+        start = {
+          start
+        }
+        err={err}
+        coords={coords}
         />
-      ) : (
-        <Portrait isTurnedLeft={isTurnedLeft} isTurnedRight={isTurnedRight} />
-      )}
-    </div>
+      ) : ( <
+        Portrait isTurnedLeft = {
+          isTurnedLeft
+        }
+        isTurnedRight = {
+          isTurnedRight
+        }
+        />
+      )
+    } </div>
   );
 }
 
