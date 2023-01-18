@@ -40,7 +40,7 @@ function Compass({
       </div>
       <p className="compass-alert" style={{ color: isQibla ? "green" : "red" }}>
         {/* {start && message} */}
-  {"Coords:" + coords.latitude + ", " + coords.longitude || err}
+  {coords && "Coords:" + coords.latitude + ", " + coords.longitude || err}
       </p>
     </div>
   );
