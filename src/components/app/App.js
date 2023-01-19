@@ -68,16 +68,21 @@ function App() {
       alert("Geolocation isn't supported/Геолокация не поддерживается");
     }
 
-    if (isIOS) {
+    if (isIOS && DeviceOrientationEvent.requestPermission === 'function') {
       DeviceOrientationEvent.requestPermission()
         .then((response) => {
           if (response === "granted") {
             window.addEventListener("deviceorientation", handler, true);
           } else {
-            alert("Allow geolocation access/Разрешите доступ к местоположению");
+            alert("Allow motion and orientation access/Разрешите доступ к данным движения и ориентации");
           }
         })
         .catch(() => alert("Not supported"));
+    } else if (
+      isIOS &&
+      DeviceOrientationEvent.requestPermission !== 'function'
+    ) {
+      window.addEventListener("deviceorientation", handler, true);
     } else {
       window.addEventListener("deviceorientationabsolute", handler, true);
     }
