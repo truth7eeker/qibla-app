@@ -1,9 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-
-body {
-  background-color:rgb(185, 210, 250);
-  font-family: 'Open Sans', sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
 
 * {
   margin: 0;
@@ -11,6 +6,16 @@ body {
   box-sizing: border-box;
 }
 
+body {
+  background: linear-gradient(#3a4589, #9299cc);
+  font-family: 'PT Sans', sans-serif;
+  height: 100vh;
+}
+
 .app {
   margin-top: .8em;
+}
+
+p {
+  font-size: 1.4rem;
 }

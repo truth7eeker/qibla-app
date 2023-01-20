@@ -15,7 +15,10 @@ function Portrait({ isTurnedLeft, isTurnedRight }) {
       }}
     >
       <img src={portraitOrientation} alt="rotate-phone" />
-      <p>Rotate your device / Поверните устройство</p>
+      <div className="portrait-alert__wrapper">
+        <p>Поверните устройство</p>
+        <p>Rotate your device</p>
+      </div>
     </div>
   );
 }

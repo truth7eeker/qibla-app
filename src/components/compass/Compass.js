@@ -10,9 +10,8 @@ function Compass({
   isQibla,
   startCompass,
   message,
-  start
-}) 
-{
+  start,
+}) {
   return (
     <div className="compass">
       <button className="compass-btn" onClick={startCompass}>
@@ -36,9 +35,20 @@ function Compass({
         </div>
         <img src={arrow} className="compass-arrow" alt="arrow" />
       </div>
-      <p className="compass-alert" style={{ color: isQibla ? "green" : "red" }}>
-        {start && message} 
-      </p>
+      <div className="compass-alert__wrapper">
+        <p
+          className="compass-alert"
+          style={{ color: isQibla ? "#ffd321" : "#fff" }}
+        >
+          {start && message.rus}
+        </p>
+        <p
+          className="compass-alert"
+          style={{ color: isQibla ? "#ffd321" : "#fff" }}
+        >
+          {start && message.eng}
+        </p>
+      </div>
     </div>
   );
 }

@@ -12,24 +12,34 @@ export function handleMessage(
 ) {
   const qibla = pointDegree < 0 ? pointDegree + 360 : pointDegree;
   let isQibla = false;
-  let messageText;
+  let messageText = { eng: "", rus: "" };
   if (isBotUser && !pointDegree && !teleErr) {
-    messageText = "Getting your coords.../ Получаем координаты";
+    messageText = {
+      eng: "Getting your coords...",
+      rus: "Получаем координаты...",
+    };
   } else if (isBotUser && teleErr) {
-    messageText = "";
+    messageText = { eng: "", rus: "" };
   } else if (!isBotUser && !pointDegree) {
-    messageText =
-      "Allow GPS access and tap Start/ Разрешите доступ к GPS и нажмите Start";
+    messageText = {
+      eng: "Allow GPS access and tap Start",
+      rus: "Разрешите доступ к GPS и нажмите Start",
+    };
   } else if (15 < beta || beta < -15 || 15 < gamma || gamma < -15) {
-    messageText =
-      "Position your device parallel to the ground/ Держите устройство параллельно земле";
+    messageText = {
+      eng: "Position your device parallel to the ground",
+      rus: "Держите устройство параллельно земле",
+    };
     isQibla = false;
   } else if (
     (pointDegree && heading > qibla - 2 && heading < qibla + 2) ||
     (pointDegree && qibla < 2 && heading > 360 - qibla) ||
     (pointDegree && qibla > 358 && heading < 2 - (360 - qibla))
   ) {
-    messageText = "You've found Qibla/ Вы нашли Киблу";
+    messageText = {
+      eng: "You've found Qibla",
+      rus: "Вы нашли Киблу",
+    };
     isQibla = true;
     handleVibration(10);
     // yandex metrica - detect reaching the goal
@@ -41,7 +51,10 @@ export function handleMessage(
     (pointDegree && qibla < 45 && heading > 360 - qibla) ||
     (pointDegree && qibla > 310 && heading < 45 - (360 - qibla))
   ) {
-    messageText = "Almost there/ Почти у цели";
+    messageText = {
+      eng: "Almost there",
+      rus: "Почти у цели",
+    };
     isQibla = false;
   }
   return [messageText, isQibla];

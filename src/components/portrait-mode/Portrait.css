@@ -14,7 +14,13 @@
 
 .portrait-mode p {
     text-align: center;
-    color: red;
+    color:#fff;
+ }
+
+ .portrait-alert__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: .1em;
  }
 
  @media (max-width:600px) {
