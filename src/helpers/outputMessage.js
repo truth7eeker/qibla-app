@@ -24,7 +24,7 @@ export function handleMessage(
     messageText = {
       eng: "Allow GPS access and tap Start",
       rus: "Разрешите доступ к GPS и нажмите Start",
-    };
+    }
   } else if (15 < beta || beta < -15 || 15 < gamma || gamma < -15) {
     messageText = {
       eng: "Position your device parallel to the ground",
@@ -41,7 +41,6 @@ export function handleMessage(
       rus: "Вы нашли Киблу",
     };
     isQibla = true;
-    handleVibration(10);
     // yandex metrica - detect reaching the goal
     !checkSession("reachGoal", true)
       ? reachQibla("reachGoal", "success")
