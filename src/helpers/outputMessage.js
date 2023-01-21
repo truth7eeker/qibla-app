@@ -1,5 +1,4 @@
 import { checkSession } from "./handleSession";
-import { handleVibration } from "./handleVibration";
 import { reachQibla } from "./yandexMetric";
 
 export function handleMessage(
