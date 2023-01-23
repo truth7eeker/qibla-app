@@ -2,10 +2,10 @@
 
 ### About
 Qibla Compass app is a website for mobile users that works as a compass and shows the Qibla direction. 
-This project is futher integrated into Telegram WebApps, so if you're wondering about a simpler version, you might be interested in this repo — 
+This project is further integrated into Telegram WebApps, so if you're wondering about a simpler version, you might be interested in this repo — 
 
 The app relies on `DeviceOrientationEvent.alpha` value to output the real compass functionality. The qibla itself is calculated based on a formula, which uses 
-a user's latitude and longitde values coming from `navigator.geolocation.getCurrentPosition()` method. Since the compass is pointing to the Magnetic North, the formula is
+a user's latitude and longitude values coming from `navigator.geolocation.getCurrentPosition()` method. Since the compass is pointing to the Magnetic North, the formula is
 then modified by the magnetic declination. The value for the declination is provided by [this awesome library](https://github.com/naturalatlas/geomagnetism).
 
 ### Demo
