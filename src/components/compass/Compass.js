@@ -12,7 +12,6 @@ function Compass({
   message,
   start,
 }) {
-  console.log(message)
   return (
     <div className="compass">
       <button className="compass-btn" onClick={startCompass}>
