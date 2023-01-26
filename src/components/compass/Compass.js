@@ -12,6 +12,7 @@ function Compass({
   message,
   start,
 }) {
+  console.log(message)
   return (
     <div className="compass">
       <button className="compass-btn" onClick={startCompass}>
@@ -48,6 +49,8 @@ function Compass({
         >
           {start && message.eng}
         </p>
+        <p className="compass-alert">{start && message.extraRus}</p>
+        <p className="compass-alert">{start && message.extraEng}</p>
       </div>
     </div>
   );
