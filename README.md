@@ -11,7 +11,7 @@ then modified by the magnetic declination. The value for the declination is prov
 ### Demo
 <img src="http://dl3.joxi.net/drive/2023/01/23/0050/3554/3292642/42/25665dad35.jpg" width="300" />
 
-[Check live version](https://curious-sfogliatella-3f6a36.netlify.app/)
+[Check live version](https://time-salyat.com)
 
 ### How to run locally
 ```sh
